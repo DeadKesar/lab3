@@ -1,60 +1,31 @@
 #pragma once
+#include <exception> 
 
 
 
 class Vector
 {
 private:
-	int array[8];
+	int *array;
 	int size;
 	int length;
-	void FillArray(int *array, int length)
-	{
-		for (int i = 0; i < length; i++)
-		{
-			this->array[i] = array[i];
-		}
-	}
-	void MoreMemory()
-	{
-		if (size < 256)
-		{
-			size *= 2;
-			int *temp = new int[size]();
-		}
-		else
-		{
-			size += 256;
-			int* temp = new int[size]();
-		}
-	}
-	void MoreMemory(int dopSize)
-	{
-		size += dopSize;
-		int* temp = new int[size]();
-	}
-	void LessMemory()
-	{
-		if (size < 256)
-		{
-			if (size / 2 > length);
-		}
-		if (size - length < 256)
-		{
-
-		}
-	}
-
+	void RestructVector(int newSize);
+	void MoreMemory();
+	void MoreMemory(int size);
+	void LessMemory();
 public:
-	Vector() :size(8), length(0)
-	{}
-	Vector(int arr[], int length)
-	{
-		
-	}
-	int operrator[];
+	Vector(); 
+	Vector(int arr[], int length);
+	Vector(const Vector &vec);
+	~Vector();
+	int& operator[](const int index);
+	void Push(int elem);
+	int Pop();
+	void Clear();
+	void Insert(int num, int index);
+	void Replace(int num, int index);
+	void AddRange(int *arr, int length);
 
-
-
+	int Length();
 };
 
