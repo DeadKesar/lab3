@@ -9,10 +9,11 @@ void MyString::RestructString(int newSize)
 	char* temp = new char[newSize];
 	for (int i = 0; i < length; i++)
 	{
-		temp[i] = this->array[i];
+		temp[i] = this->string[i];
 	}
-	delete[] this->array;
-	this->array = temp;
+	temp[length] = '\0';
+	delete[] this->string;
+	this->string = temp;
 	this->size = newSize;
 }
 
@@ -51,7 +52,7 @@ void  MyString::LessMemory()
 	{
 		if (size < 256)
 		{
-			while (size / 2 > length)
+			while (size / 2 > length+1)
 			{
 				size /= 2;
 			}
@@ -59,7 +60,7 @@ void  MyString::LessMemory()
 		}
 		else
 		{
-			RestructString(length);
+			RestructString(length+1);
 		}
 	}
 }
@@ -76,17 +77,18 @@ char* MyString::GetSubstring(char text[], int start, int size)
 //public:
 MyString::MyString() : size(8), length(0)
 {
-	this->array = new char[size];
+	this->string = new char[size];
 }
-MyString::MyString(char arr[], int length)
+MyString::MyString(const char arr[], int length)
 {
-	this->array = new char[length];
+	this->string = new char[length+1];
 	for (int i = 0; i < length; i++)
 	{
-		array[i] = arr[i];
+		string[i] = arr[i];
 	}
 	this->length = length;
-	this->size = length;
+	this->string[length] = '\0';
+	this->size = length+1;
 }
 MyString::MyString(const char arr[])
 {
@@ -95,16 +97,17 @@ MyString::MyString(const char arr[])
 	{
 		count++;
 	}
-	RestructString(count);
+	RestructString(count+1);
 	for (int i = 0; i < count; i++)
 	{
-		this->array[i] = arr[i];
+		this->string[i] = arr[i];
 	}
 	length = count;
+	this->string[count] = '\0';
 }
 MyString::~MyString()
 {
-	delete[] this->array;
+	delete[] this->string;
 }
 
 char& MyString::operator[](const int index)
@@ -113,7 +116,7 @@ char& MyString::operator[](const int index)
 	{
 		throw "index out of range";
 	}
-	return this->array[index];
+	return this->string[index];
 }
 void MyString::Push(char elem)
 {
@@ -121,7 +124,8 @@ void MyString::Push(char elem)
 	{
 		this->MoreMemory();
 	}
-	this->array[length] = elem;
+	this->string[length]  =elem;
+	this->string[length+1] = '\0';
 	length++;
 }
 char MyString::Pop()
@@ -130,7 +134,7 @@ char MyString::Pop()
 	{
 		throw "Vector is empty";
 	}
-	char temp = array[length - 1];
+	char temp = string[length - 1];
 	if (((size < 256 && size / 2 >length) || (size - length > 256)) && (size > 8))
 	{
 		LessMemory();
@@ -140,8 +144,8 @@ char MyString::Pop()
 }
 void MyString::Clear()
 {
-	delete[] array;
-	array = new char[8];
+	delete[] string;
+	string = new char[8];
 	size = 8;
 	length = 0;
 }
@@ -156,16 +160,16 @@ void MyString::Insert(char elem, int index)
 		char* temp = new char[this->size];
 		for (int i = 0; i < index; i++)
 		{
-			temp[i] = this->array[i];
+			temp[i] = this->string[i];
 		}
 		temp[index] = elem;
 		for (int i = index + 1; i < length + 1; i++)
 		{
-			temp[i] = this->array[i - 1];
+			temp[i] = this->string[i - 1];
 		}
 		length++;
-		delete[] this->array;
-		array = temp;
+		delete[] this->string;
+		string = temp;
 	}
 	else
 	{
@@ -176,26 +180,26 @@ void MyString::Replace(char elem, int index)
 {
 	if (index < length)
 	{
-		this->array[index] = elem;
+		this->string[index] = elem;
 	}
 	else
 	{
 		throw "Index out of range";
 	}
 }
-void MyString::AddRange(char* arr, int length)
+void MyString::AddRange(const char* arr, int length)
 {
 	int point = this->length;
 	if (this->size < this->length + length)
 	{
-		MoreMemory(this->length + length);
+		MoreMemory(this->length + length+1);
 	}
 	this->length += length;
 	for (int i = point, j = 0; i < this->length; i++, j++)
 	{
-		this->array[i] = arr[j];
+		this->string[i] = arr[j];
 	}
-
+	this->string[length + 1] = '\0';
 }
 bool MyString::EndsWith(MyString str)
 {
@@ -205,7 +209,7 @@ bool MyString::EndsWith(MyString str)
 	}
 	for (int i = str.length - 1; i >= 0; i--)
 	{
-		if (this->array[this->length - str.length + i] != str[i])
+		if (this->string[this->length - str.length + i] != str[i])
 		{
 			return false;
 		}
@@ -220,26 +224,25 @@ bool MyString::StartsWith(MyString str)
 	}
 	for (int i = 0; i > str.length; i++)
 	{
-		if (this->array[i] != str[i])
+		if (this->string[i] != str[i])
 		{
 			return false;
 		}
 	}
 	return true;
 }
-/*
 int MyString::IndexOf(MyString str)
 {
 	if (this->length < str.length)
 		return -1;
 	for (int i = 0; i <= this->length - str.length; i++)
 	{
-		if (this->array[i] == str[0])
+		if (this->string[i] == str[0])
 		{
 			bool isSame = true;
 			for (int j = 0; j < str.length; j++)
 			{
-				if (array[i + j] != str[j])
+				if (string[i + j] != str[j])
 				{
 					isSame = false;
 					break;
@@ -253,20 +256,19 @@ int MyString::IndexOf(MyString str)
 	}
 	return -1;
 }
-	*/
-MyString* MyString::Split(char separator)
+MyStringCollection* MyString::Split(char separator)
 {
 	if (this->length < 2)
 		return nullptr;
 	int count = 0;
 	for (int i = 1; i < length - 1; i++)
 	{
-		if (this->array[i] == separator && this->array[i - 1] != separator)
+		if (this->string[i] == separator && this->string[i - 1] != separator)
 		{
 			count++;
 		}
 	}
-	if (this->array[this->length - 2] == separator && this->array[this->length - 1] == separator)
+	if (this->string[this->length - 2] == separator && this->string[this->length - 1] == separator)
 	{
 		count--;
 	}
@@ -274,27 +276,46 @@ MyString* MyString::Split(char separator)
 	{
 		return nullptr;
 	}
-	if (this->array[this->length - 1] != separator)
+	if (this->string[this->length - 1] != separator)
 		count++;
 	MyString* answer = new MyString[count];
-	count = 0;
+	int index = 0;
 	int start = 0, len = 0;
 	for (int i = 1; i < this->length; i++)
 	{	
-		if (this->array[start] = separator)
+		if (this->string[start] == separator)
 		{
 			start++;
 		}
-		if (this->array[i] == separator && this->array[i-1] != separator)
+		if (this->string[i] == separator && this->string[i-1] != separator)
 		{
 			len = i - start;
-			answer[count] = *(new MyString(GetSubstring(this->array, start, len),len));
+			answer[index] = *(new MyString(GetSubstring(this->string, start, len),len));
 			start = i + 1;
+			index++;
 		}
 	}
-	return answer;
+	if (this->string[this->length] != separator && index < count)
+	{
+		answer[index] = *(new MyString(GetSubstring(this->string, start, this->length), this->length));
+	}
+	MyStringCollection* answ = new MyStringCollection(answer, count);
+	return answ;
 }
 const char* MyString::GetStr()
 {
-	return this->array;
+	return this->string;
+}
+MyStringCollection::MyStringCollection(MyString* arr, int length)
+{
+	this->collection = arr;
+	this->length = length;
+}
+MyStringCollection::~MyStringCollection()
+{
+	for (int i = 0; i < length; i++)
+	{
+		delete[] &collection[i];
+	}
+	delete[] collection;
 }

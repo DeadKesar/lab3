@@ -1,10 +1,20 @@
 #pragma once
 #include "Vector.h"
+
+class MyString;
+struct MyStringCollection
+{
+	MyString* collection;
+	int length;
+	MyStringCollection(MyString* arr, int length);
+	~MyStringCollection();
+};
+
 class MyString :
     public Vector
 {
 private:
-    char* array;
+    char* string;
 	int size;
 	int length;
 	void RestructString(int newSize);
@@ -14,7 +24,7 @@ private:
 	char* GetSubstring(char text[], int start, int size);
 public:
 	MyString();
-	MyString(char arr[], int length);
+	MyString(const char arr[], int length);
 	MyString(const char arr[]);
 	~MyString();
 	char& operator[](const int index);
@@ -23,7 +33,7 @@ public:
 	void Clear();
 	void Insert(char elem, int index);
 	void Replace(char elem, int index);
-	void AddRange(char* str, int length);
+	void AddRange(const char* str, int length);
 	
 
 
@@ -31,7 +41,7 @@ public:
     bool EndsWith(MyString str);
 	bool StartsWith(MyString str);
 	int IndexOf(MyString str);
-	MyString* Split(char separator);
+	MyStringCollection* Split(char separator);
 	const char* GetStr();
 };
 

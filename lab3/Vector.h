@@ -17,7 +17,7 @@ public:
 	Vector(); 
 	Vector(int arr[], int length);
 	Vector(const Vector &vec);
-	~Vector();
+	virtual ~Vector();
 	int& operator[](const int index);
 	void Push(int elem);
 	int Pop();
