@@ -12,7 +12,6 @@ void MyString::RestructString(int newSize)
 		temp[i] = this->string[i];
 	}
 	temp[length] = '\0';
-	delete[] this->string;
 	this->string = temp;
 	this->size = newSize;
 }
@@ -75,6 +74,18 @@ char* MyString::GetSubstring(char text[], int start, int size)
 	return str;
 }
 //public:
+void MyString::Reverse()
+{
+	char* temp = new char[this->size];
+	for (int i = 0, j = this->length-1; i < this->length; i++, j--)
+	{
+		temp[i] = this->string[j];
+	}
+	temp[length] = '\0';
+//	delete[] this->string;
+	this->string = temp;
+}
+											
 MyString::MyString() : size(8), length(0)
 {
 	this->string = new char[size];
@@ -102,12 +113,12 @@ MyString::MyString(const char arr[])
 	{
 		this->string[i] = arr[i];
 	}
-	length = count;
+	this->length = count;
 	this->string[count] = '\0';
 }
 MyString::~MyString()
 {
-	delete[] this->string;
+	delete[] string;
 }
 
 char& MyString::operator[](const int index)
@@ -190,7 +201,7 @@ void MyString::Replace(char elem, int index)
 void MyString::AddRange(const char* arr, int length)
 {
 	int point = this->length;
-	if (this->size < this->length + length)
+	if (this->size < this->length + length+1)
 	{
 		MoreMemory(this->length + length+1);
 	}
@@ -199,9 +210,9 @@ void MyString::AddRange(const char* arr, int length)
 	{
 		this->string[i] = arr[j];
 	}
-	this->string[length + 1] = '\0';
+	this->string[this->length] = '\0';
 }
-bool MyString::EndsWith(MyString str)
+bool MyString::EndsWith(MyString &str)
 {
 	if (str.length > this->length)
 	{
@@ -216,13 +227,13 @@ bool MyString::EndsWith(MyString str)
 	}
 	return true;
 }
-bool MyString::StartsWith(MyString str)
+bool MyString::StartsWith(MyString &str)
 {
 	if (str.length > this->length)
 	{
 		return false;
 	}
-	for (int i = 0; i > str.length; i++)
+	for (int i = 0; i < str.length; i++)
 	{
 		if (this->string[i] != str[i])
 		{
@@ -231,7 +242,7 @@ bool MyString::StartsWith(MyString str)
 	}
 	return true;
 }
-int MyString::IndexOf(MyString str)
+int MyString::IndexOf(MyString &str)
 {
 	if (this->length < str.length)
 		return -1;
@@ -306,6 +317,11 @@ const char* MyString::GetStr()
 {
 	return this->string;
 }
+int MyString::Length()
+{
+	return this->length;
+}
+
 MyStringCollection::MyStringCollection(MyString* arr, int length)
 {
 	this->collection = arr;
@@ -319,3 +335,32 @@ MyStringCollection::~MyStringCollection()
 	}
 	delete[] collection;
 }
+void MyString::GetInput()
+{
+
+	bool isNotEnd = true;
+	while (isNotEnd)
+	{
+		MyString *str = new MyString();
+		char ch = ' ';
+		while (ch != '\n')
+		{
+			ch = std::getchar();
+			if (ch == '\n')
+			{
+				isNotEnd = false;
+				continue;
+			}
+			str->Push(ch);
+		}
+		this->RestructString(str->size);
+		for (int i = 0; i < str->length; i++)
+		{
+			this->string[i] = str->string[i];
+		}
+		this->length = str->length;
+		this->string[length] = '\0';
+
+	}
+}
+
