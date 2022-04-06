@@ -82,7 +82,6 @@ void MyString::Reverse()
 		temp[i] = this->string[j];
 	}
 	temp[length] = '\0';
-//	delete[] this->string;
 	this->string = temp;
 }
 											

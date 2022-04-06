@@ -16,6 +16,7 @@ int main()
     std::cout << "Лабораторная работа №3. \nПо теме: \"Наследование. Полиморфизм..\"\n" <<
         "Вариант №1 \nВыполнил: Порядин В.С." << std::endl;
 
+
     std::cout << std::endl << "Введите предложение: ";
     MyString* str1 = new MyString();
     str1->GetInput();
@@ -61,7 +62,7 @@ int main()
     std::cout << std::endl;
     std::cout << std::endl;
 
-    Vector* vect = new Vector((new int[]{ 1,2,3,4,5,6,7,8,9,10 }),10);
+    Vector* vect = new Vector((new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }), 10);
     std::cout << std::endl;
     for (int i = 0; i < 10; i++)
     {
@@ -69,16 +70,16 @@ int main()
     }
     std::cout << std::endl;
     int a[10]{ 1,2,3,45,46,47,48,49,50,10 };
-    vect->AddRange(a,10);
+    vect->AddRange(a, 10);
     for (int i = 0; i < 20; i++)
     {
-       std::cout << (*vect)[i] << ", ";
+        std::cout << (*vect)[i] << ", ";
     }
 
-    MyString *str = VectorToString(*vect); 
-    std::cout << std::endl<< str->GetStr();
+    MyString* str = VectorToString(*vect);
+    std::cout << std::endl << str->GetStr();
 
-    MyStringCollection *s = str->Split('|');
+    MyStringCollection* s = str->Split('|');
     std::cout << std::endl;
     for (int i = 0; i < s->length; i++)
     {
@@ -86,10 +87,9 @@ int main()
     }
     std::cout << std::endl;
 
-    std::cout << std::endl << str2.IndexOf(*(new MyString(" w")));
 }
 
-int GetNumber(char const *s)
+int GetNumber(char const* s)
 {
     int num;
     while (true)
@@ -111,7 +111,7 @@ int GetNumber(char const *s)
 }
 MyString* VectorToString(Vector vec)
 {
-    MyString *str = new MyString();
+    MyString* str = new MyString();
     for (int i = 0; i < vec.Length(); i++)
     {
         MyString temp = NumToChar(vec[i])->GetStr();
@@ -122,7 +122,7 @@ MyString* VectorToString(Vector vec)
 }
 MyString* NumToChar(int num)
 {
-    MyString *str = new MyString();
+    MyString* str = new MyString();
     while (num > 0)
     {
         str->Push((char)(num % 10 + '0'));
