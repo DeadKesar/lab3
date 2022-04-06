@@ -86,6 +86,7 @@ int main()
     }
     std::cout << std::endl;
 
+    std::cout << std::endl << str2.IndexOf(*(new MyString(" w")));
 }
 
 int GetNumber(char const *s)
