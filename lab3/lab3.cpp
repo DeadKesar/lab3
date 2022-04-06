@@ -13,6 +13,8 @@ int main()
 {
     setlocale(LC_ALL, "Rus");
 
+    std::cout << "Лабораторная работа №3. \nПо теме: \"Наследование. Полиморфизм..\"\n" <<
+        "Вариант №1 \nВыполнил: Порядин В.С." << std::endl;
 
     std::cout << std::endl << "Введите предложение: ";
     MyString* str1 = new MyString();
@@ -45,8 +47,8 @@ int main()
     std::cout << std::endl << str1->IndexOf(*str4);
 
     std::cout << std::endl << "Используем символ разделитель: ";
-    char ch = getchar();
-    MyStringCollection* col = str1->Split(ch);
+    char separor = getchar();
+    MyStringCollection* col = str1->Split(separor);
     if (col != nullptr)
     {
         for (int i = 0; i < col->length; i++)
